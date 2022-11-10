@@ -4,7 +4,12 @@ namespace AzureAssessment.Controllers
 {
 	public class BlobImageController : Controller
 	{
-		public IActionResult Upload()
+		public IActionResult UploadImageToBlob()
+		{
+			return View();
+		}
+
+		public IActionResult ImageList() 
 		{
 			return View();
 		}
