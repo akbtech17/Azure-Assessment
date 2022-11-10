@@ -1,6 +1,6 @@
 ﻿namespace AzureAssessment.Models
 {
-	public class UploadImage
+	public class Image
 	{
 		public string? ImageCaption { get; set; }
 		public string? ImageDescription { get; set; }

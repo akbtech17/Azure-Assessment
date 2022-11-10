@@ -1,1 +1,16 @@
-﻿<h1>Upload Image</h1>
+﻿@model Image;
+
+<div class="container">
+    <form asp-action="UploadImageToBlob" enctype="multipart/form-data">
+        <input asp-for="ImageCaption" placeholder="Enter Image Caption" />
+        <br />
+
+        <input asp-for="ImageDescription" placeholder="Enter Image Description" />
+        <br />
+
+        <input asp-for="MyImage" />
+        <br />
+
+        <input type="submit" />
+    </form>
+</div>

@@ -21,7 +21,7 @@ namespace AzureAssessment.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult Index(UploadImage imageInfo)
+		public IActionResult Index(Image imageInfo)
 		{
 			var img = imageInfo.MyImage;
 			var imgCaption = imageInfo.ImageCaption;
