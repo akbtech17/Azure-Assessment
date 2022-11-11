@@ -14,26 +14,6 @@ namespace AzureAssessment.Controllers
 			_logger = logger;
 		}
 
-		[HttpGet]
-		public IActionResult Index()
-		{
-			return View();
-		}
-
-		[HttpPost]
-		public IActionResult Index(Image imageInfo)
-		{
-			var img = imageInfo.MyImage;
-			var imgCaption = imageInfo.ImageCaption;
-
-			//Getting file meta data
-			var fileName = Path.GetFileName(imageInfo.MyImage.FileName);
-			var contentType = imageInfo.MyImage.ContentType;
-
-			return View();
-		}
-
-
 		public IActionResult Privacy()
 		{
 			return View();

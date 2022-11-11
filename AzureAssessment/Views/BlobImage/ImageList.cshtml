@@ -1,1 +1,6 @@
-﻿<h1>Image List</h1>
+﻿@model IEnumerable<Image>
+<h1>Image List</h1>
+@foreach(var data in @Model) 
+{
+	<h2>@Html.DisplayFor(d => data.ImageName);</h2>
+}
