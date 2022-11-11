@@ -2,5 +2,8 @@
 <h1>Image List</h1>
 @foreach(var data in @Model) 
 {
-	<h2>@Html.DisplayFor(d => data.ImageName);</h2>
+	<div>
+		<img src="@Html.DisplayFor(d => data.ImageUrl)" style="width: 100px; height: 100px;">
+		<h2>@Html.DisplayFor(d => data.ImageName);</h2>
+	</div>
 }
