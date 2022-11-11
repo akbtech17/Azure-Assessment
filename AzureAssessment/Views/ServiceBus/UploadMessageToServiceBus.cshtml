@@ -1,1 +1,9 @@
-﻿<h1>Upload message to Service Bus</h1>
+﻿@model Message;
+
+<div class="container">
+    <form asp-action="UploadMessageToServiceBus" enctype="multipart/form-data">
+        <input asp-for="MessageString" placeholder="Enter your message here..." />
+        <br />
+        <input type="submit" />
+    </form>
+</div>

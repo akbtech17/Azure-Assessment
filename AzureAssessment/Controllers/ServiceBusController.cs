@@ -1,5 +1,6 @@
 ﻿using Azure.Messaging.ServiceBus;
 using Azure.Storage.Blobs;
+using AzureAssessment.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AzureAssessment.Controllers
@@ -19,8 +20,18 @@ namespace AzureAssessment.Controllers
 		}	
 		public IActionResult UploadMessageToServiceBus()
 		{
-			ServiceBusSender _sender = _client.CreateSender(_serviceBusQueueName);
+			/*ServiceBusSender _sender = _client.CreateSender(_serviceBusQueueName);
 			ServiceBusMessage _message = new ServiceBusMessage("Anshul's first message to SBQ");
+			_sender.SendMessageAsync(_message).GetAwaiter().GetResult();
+			Console.WriteLine("Message Sent");*/
+			return View();
+		}
+
+		[HttpPost]
+		public IActionResult UploadMessageToServiceBus(Message message)
+		{
+			ServiceBusSender _sender = _client.CreateSender(_serviceBusQueueName);
+			ServiceBusMessage _message = new ServiceBusMessage(message.MessageString);
 			_sender.SendMessageAsync(_message).GetAwaiter().GetResult();
 			Console.WriteLine("Message Sent");
 			return View();
