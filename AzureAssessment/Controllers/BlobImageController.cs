@@ -17,7 +17,6 @@ namespace AzureAssessment.Controllers
 		BlobServiceClient _serviceClient;
 		BlobContainerClient _containerClient;
 
-		[Obsolete]
 		public BlobImageController()
 		{
 			var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: false);

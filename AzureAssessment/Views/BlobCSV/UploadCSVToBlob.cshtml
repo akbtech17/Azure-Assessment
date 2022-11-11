@@ -1,1 +1,16 @@
-﻿<h1>Upload CSV to BLOB</h1>
+﻿@model CSVFile;
+
+<div class="container">
+    <form asp-action="UploadCSVToBlob" enctype="multipart/form-data">
+        <input asp-for="FileCaption" placeholder="Enter Image Caption" />
+        <br />
+
+        <input asp-for="FileDescription" placeholder="Enter Image Description" />
+        <br />
+
+        <input asp-for="MyFile" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
+        <br />
+
+        <input type="submit" />
+    </form>
+</div>
