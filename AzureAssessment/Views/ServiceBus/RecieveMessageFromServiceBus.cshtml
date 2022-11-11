@@ -1,0 +1,17 @@
+﻿@model RecieveMessages;
+
+<div class="container">
+    <form asp-action="RecieveMessageFromServiceBus" enctype="multipart/form-data">
+        <input asp-for="MessageCount" type="number" />
+        <br />
+        <input type="submit" />
+    </form>
+
+    @if (Model.Messages != null)
+    {
+        @foreach (var message in @Model.Messages)
+        {
+            <h3>@Html.DisplayFor(d => message)</h3>
+        }
+    }
+</div>
