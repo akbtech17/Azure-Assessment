@@ -1,9 +1,84 @@
 ﻿@model Message;
 
-<div class="container">
+@*<div class="container">
     <form asp-action="UploadMessageToServiceBus" enctype="multipart/form-data">
         <input asp-for="MessageString" placeholder="Enter your message here..." />
         <br />
         <input type="submit" />
     </form>
+</div>*@
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-7 mx-auto">
+            <div class="card-group">
+                <div class="card p-4">
+                    <div class="card-body">
+                        <form class="am-form" asp-action="UploadMessageToServiceBus" enctype="multipart/form-data" method="post">
+                            <h1 style="text-align:center; color:#e72929;">Send Messsage to Service Bus</h1>
+                            
+                            <hr />
+                            <br />
+
+                            <div class="input-group form-row mb-3">
+                                <div class="form-row-label">Message</div>
+                                <div class="form-row-input">
+                                    <input type="text"
+                                           class="form-control form-row-input"
+                                           placeholder="Enter your message here..."
+                                           asp-for="MessageString">
+                                    <span asp-validation-for="MessageString" class="form-text text-danger"></span>
+                                </div>
+                            </div>
+
+            
+                            <br />
+                            <div class="button-div">
+                                <div class="">
+                                    <button type="submit" class="btn btn-success px-4">Send Message</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<style>
+    .container {
+        margin: 40px 0;
+    }
+    
+    .form-row {
+        display: flex;
+    }
+
+    .form-row-label {
+        flex: 0.35;
+        font: 8px;
+        padding: 5px 0;
+    }
+
+    .form-row-input {
+        flex: 0.65;
+    }
+
+    .form-row-input > span {
+         width: 100%;
+         font-size: 0.95rem;
+         font-weight: bolder;
+     }
+
+    .button-div{
+        display:flex;
+        justify-content:center;
+    }
+</style>
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>

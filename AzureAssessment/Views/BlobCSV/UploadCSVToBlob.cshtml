@@ -1,16 +1,94 @@
 ﻿@model CSVFile;
 
 <div class="container">
-    <form asp-action="UploadCSVToBlob" enctype="multipart/form-data">
-        <input asp-for="FileCaption" placeholder="Enter Image Caption" />
-        <br />
+    <div class="row">
+        <div class="col-md-7 mx-auto">
+            <div class="card-group">
+                <div class="card p-4">
+                    <div class="card-body">
+                        <form class="am-form" asp-action="UploadCSVToBlob" enctype="multipart/form-data" method="post">
+                            <h1 style="text-align:center; color:#e72929;">Upload CSV File</h1>
+                            
+                            <hr />
+                            <br />
 
-        <input asp-for="FileDescription" placeholder="Enter Image Description" />
-        <br />
+                            <div class="input-group form-row mb-3">
+                                <div class="form-row-label">File Caption</div>
+                                <div class="form-row-input">
+                                    <input type="text"
+                                           class="form-control form-row-input"
+                                           placeholder="Enter your File Caption here..."
+                                           asp-for="FileCaption">
+                                    <span asp-validation-for="FileCaption" class="form-text text-danger"></span>
+                                </div>
+                            </div>
 
-        <input asp-for="MyFile" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
-        <br />
+                            <div class="input-group form-row mb-3">
+                                <div class="form-row-label">File Description</div>
+                                <div class="form-row-input">
+                                    <input type="text"
+                                           class="form-control form-row-input"
+                                           placeholder="Enter your File Description here..."
+                                           asp-for="FileDescription">
+                                    <span asp-validation-for="FileDescription" class="form-text text-danger"></span>
+                                </div>
+                            </div>
 
-        <input type="submit" />
-    </form>
+                            <div class="input-group form-row mb-3">
+                                <div class="form-row-label">Select File</div>
+                                <div class="form-row-input">
+                                    <input type="file"
+                                           class="form-control form-row-input"
+                                           asp-for="MyFile" 
+                                           accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-exce">
+                                    <span asp-validation-for="MyFile" class="form-text text-danger"></span>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="button-div">
+                                <div class="">
+                                    <button type="submit" class="btn btn-success px-4">Upload File</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<style>
+    .container {
+        margin: 40px 0;
+    }
+    
+    .form-row {
+        display: flex;
+    }
+
+    .form-row-label {
+        flex: 0.35;
+        font: 8px;
+        padding: 5px 0;
+    }
+
+    .form-row-input {
+        flex: 0.65;
+    }
+
+    .form-row-input > span {
+         width: 100%;
+         font-size: 0.95rem;
+         font-weight: bolder;
+     }
+
+    .button-div{
+        display:flex;
+        justify-content:center;
+    }
+</style>
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
