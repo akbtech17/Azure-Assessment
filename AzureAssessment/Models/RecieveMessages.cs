@@ -1,8 +1,11 @@
-﻿namespace AzureAssessment.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace AzureAssessment.Models
 {
 	public class RecieveMessages
 	{
-		public int MessageCount { get; set; }
+        [Required(ErrorMessage = "* message can't be empty")]
+        public int MessageCount { get; set; }
 		public List<string>? Messages { get; set; }
 	}
 }
