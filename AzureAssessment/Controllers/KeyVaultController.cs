@@ -1,5 +1,7 @@
 ﻿using Azure.Identity;
+using Azure.Security.KeyVault.Keys;
 using Azure.Security.KeyVault.Secrets;
+using AzureAssessment.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AzureAssessment.Controllers
@@ -9,25 +11,34 @@ namespace AzureAssessment.Controllers
 		private static string? _tenantId;
 		private static string? _clientId;
 		private static string? _clientSecret;
-
         private static string? _keyVaultUrl;
 		private static SecretClient? _secretsClient;
-		//private static string? _sqlConnString;
+
         public KeyVaultController(IConfiguration configuration) {
 			_tenantId = configuration["TenantId"];
 			_clientId = configuration["ClientId"];
 			_clientSecret = configuration["ClientSecret"];
+            _keyVaultUrl = configuration["AzureKeyVaultUrl"];
 
 			ClientSecretCredential clientCredential = new ClientSecretCredential(_tenantId, _clientId, _clientSecret);
-
-            _keyVaultUrl = configuration["AzureKeyVaultUrl"];
-            //_secretsClient = new SecretClient(new Uri(_keyVaultUrl), new DefaultAzureCredential());
             _secretsClient = new SecretClient(new Uri(_keyVaultUrl), clientCredential);
-            var _sqlConnString = _secretsClient.GetSecret("AdminPassword");
+            
 		}
+
+		[HttpGet]
 		public IActionResult Index()
 		{
-			return View();
+			KeyVault keyVaultModel = new KeyVault();
+			return View(keyVaultModel);
+		}
+
+		[HttpPost]
+		public IActionResult Index(KeyVault keyVaultModel)  
+		{
+			if (keyVaultModel != null && keyVaultModel.Key != null)  {
+				keyVaultModel.Value = _secretsClient?.GetSecret(keyVaultModel.Key).Value.Value;
+            }
+			return View(keyVaultModel);
 		}
 	}
 }

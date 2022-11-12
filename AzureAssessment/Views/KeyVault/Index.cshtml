@@ -1,1 +1,14 @@
-﻿<h1>Display values of KV</h1>
+﻿@model KeyVault;
+
+<div class="container">
+    <form asp-action="Index" enctype="multipart/form-data">
+        <input asp-for="Key" />
+        <br />
+        <input type="submit" />
+    </form>
+
+    @if (Model.Value != null)
+    {
+       <h3>@Html.DisplayFor(d => d.Value)</h3>
+    }
+</div>
