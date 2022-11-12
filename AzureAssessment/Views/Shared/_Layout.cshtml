@@ -7,52 +7,248 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/AzureAssessment.styles.css" asp-append-version="true" />
+    <style>
+        a{
+            text-decoration:none;
+        }
+        .application-div {
+            display: flex;
+            flex-direction: column;
+            overflow: auto;
+            height: 100vh;
+        }
+
+        .application-content {
+            display: flex;
+            height: 100vh;
+        }
+        .header-logo {
+            width: 200px;
+        }
+        .sidebar {
+            width: 200px;
+            background-color: #00171F;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content {
+            /*flex: 0.9;*/
+            overflow-x: hidden;
+            /* overflow-y: hidden; */
+            /* overflow-y: auto; */
+        }
+
+            .content::-webkit-scrollbar {
+                display: none;
+            }
+
+        .content {
+            -ms-overflow-style: none; /* IE and Edge */
+            scrollbar-width: none; /* Firefox */
+        }
+
+        .ws-content {
+            overflow-x: hidden;
+        }
+
+            .ws-content::-webkit-scrollbar {
+                display: none;
+            }
+
+        .ws-content {
+            -ms-overflow-style: none; /* IE and Edge */
+            scrollbar-width: none; /* Firefox */
+        }
+
+        .sidenav {
+            padding-top: 1rem;
+        }
+
+        .sidenav a {
+            color: white;
+            padding: 1em;
+            display: inline-block;
+            list-style-type: none;
+            width: 100%;
+            height: auto;
+        }
+
+        .sidenav a:hover {
+            transition: 2sec;
+            background-color: white;
+            color: #00171F;
+            text-decoration: none;
+            opacity: 0.9;
+            transition: 0.3s;
+            cursor: pointer;
+            transform: scale(1.01);
+            font-weight: bolder;
+        }
+
+        .header-logo:hover {
+            color: white;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            text-decoration: none;
+        }
+
+        .main-header {
+            background-color: whitesmoke;
+            padding: 0;
+            border-bottom: 1px solid #e72929;
+        }
+
+        .header-containerr {
+            margin-right: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .header-logo {
+            font-weight: bold;
+            padding: 1em;
+            background-color: #af1313;
+            color: white;
+            border-radius: 0 2rem 0 0;
+            text-decoration: none;
+        }
+
+        .header-links-list {
+            list-style-type: none;
+            margin: 0;
+        }
+
+        .header-links a {
+            color: #af1313;
+            padding: 1em;
+            display: inline-block;
+            list-style-type: none;
+        }
+
+        .header-links a:hover {
+            background-color: #e72929;
+            color: white;
+            text-decoration: none;
+            opacity: 0.9;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .header-logo:hover {
+            text-decoration: none;
+            opacity: 0.9;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="BlobImage" asp-action="UploadImageToBlob">Azure Tutorial</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="BlobImage" asp-action="UploadImageToBlob">Upload Image</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="BlobImage" asp-action="ImageList">Images List</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="BlobCSV" asp-action="UploadCSVToBlob">Upload CSV</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="ServiceBus" asp-action="UploadMessageToServiceBus">Service Bus</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="ServiceBus" asp-action="RecieveMessageFromServiceBus">Service Bus Messages</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="KeyVault" asp-action="Index">KV Values</a>
-                        </li>
+    @*<div>
+        <header>
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+                <div class="container-fluid">
+                    <a class="navbar-brand" asp-area="" asp-controller="BlobImage" asp-action="UploadImageToBlob">Azure Tutorial</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                        <ul class="navbar-nav flex-grow-1">
+                            
+                                <a class="nav-link text-dark" asp-area="" asp-controller="BlobImage" asp-action="UploadImageToBlob">Upload Image</a>
+                           
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="BlobImage" asp-action="ImageList">Images List</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="BlobCSV" asp-action="UploadCSVToBlob">Upload CSV</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="ServiceBus" asp-action="UploadMessageToServiceBus">Service Bus</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="ServiceBus" asp-action="RecieveMessageFromServiceBus">Service Bus Messages</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="KeyVault" asp-action="Index">KV Values</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <div class="container">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
+
+        <footer class="border-top footer text-muted">
+            <div class="container">
+                &copy; 2022 - AzureAssessment - Created by Anshul Bansal
+            </div>
+        </footer>
+    </div>*@
+    <div class="application-div">
+        <header class="main-header">
+            <div class="header-containerr">
+                <a class="header-logo" asp-controller="Movie" asp-action="List">Azure Tutorial </a>
+                <nav>
+                    <ul class="header-links-list">
+                        
+                            <li class="header-links">
+                                <a asp-controller="Customer" asp-action="SignIn">SignIn</a>
+                                <a asp-controller="Admin" asp-action="SignIn">Admin</a>
+                            </li>
+                        
                     </ul>
+                </nav>
+            </div>
+        </header>
+      
+            <div class="application-content">
+
+                <div class="sidebar">
+                   
+                        <div class="sidenav">
+                    
+                            <a class="nav-link" asp-area="" asp-controller="BlobImage" asp-action="UploadImageToBlob">Upload Image</a>
+                   
+                    
+                            <a class="nav-link" asp-area="" asp-controller="BlobImage" asp-action="ImageList">Images List</a>
+                   
+                    
+                            <a class="nav-link" asp-area="" asp-controller="BlobCSV" asp-action="UploadCSVToBlob">Upload CSV</a>
+                   
+                    
+                            <a class="nav-link" asp-area="" asp-controller="ServiceBus" asp-action="UploadMessageToServiceBus">Service Bus</a>
+                   
+                    
+                            <a class="nav-link" asp-area="" asp-controller="ServiceBus" asp-action="RecieveMessageFromServiceBus">Service Bus Messages</a>
+                   
+                    
+                            <a class="nav-link" asp-area="" asp-controller="KeyVault" asp-action="Index">KV Values</a>
+                   
+                        </div>
+                
+
+                </div>
+
+                <div class="content">
+                    @RenderBody()
                 </div>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+       
+        
+
+
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2022 - AzureAssessment - Created by Anshul Bansal
-        </div>
-    </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

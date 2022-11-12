@@ -1,18 +1,28 @@
-html {
-  font-size: 14px;
+@import url('https://fonts.googleapis.com/css?family=Open+Sans&disk=play=swap');
+@import url('https://fonts.googleapis.com/css?family=Quicksand');
+@import url("https://fonts.googleapis.com/css?family=Lato&display=swap");
+
+
+* {
+    box-sizing: border-box;
 }
 
-@media (min-width: 768px) {
-  html {
+html {
     font-size: 16px;
-  }
-}
-
-html {
-  position: relative;
-  min-height: 100%;
+    height: auto;
 }
 
 body {
-  margin-bottom: 60px;
+    margin: 0;
+    font-family: quicksand, sans-serif;
+    font-size: 18px;
+    background-color: #242333;
+}
+
+*, a {
+    text-decoration: none;
+}
+
+.validations {
+    font-size: 1rem;
 }
