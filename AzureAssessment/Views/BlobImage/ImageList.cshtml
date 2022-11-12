@@ -1,9 +1,208 @@
 ﻿@model IEnumerable<Image>
-<h1>Image List</h1>
-@foreach(var data in @Model) 
-{
-	<div>
-		<img src="@Html.DisplayFor(d => data.ImageUrl)" style="width: 100px; height: 100px;">
-		<h2>@Html.DisplayFor(d => data.ImageName);</h2>
-	</div>
-}
+
+    <br />
+<h1 style="text-align:center; color:#e72929;">Image List</h1>
+<hr style="color:white;"/>
+<ul class="ml-ul">
+    @foreach (var image in @Model)
+    {
+
+        <li>
+            <a href="@Url.Action("Details","Movie", new {id = image.ImageUrl})">
+                <img class="ml-image" src="@Html.DisplayFor(d => image.ImageUrl)" alt="foods-image">
+                <div class="ml-content">
+                    <div class="ml-title">
+                        <div class="ml-movie-name">
+                            @{
+                                string imageName = image.ImageName;
+                                if (imageName.Length > 22)
+                                {
+                                    imageName = imageName.Substring(0, 22);
+                                    imageName += "...";
+                                }
+                            }
+                            @imageName
+                        </div>
+                        @*<span class="ml-favorite">❤@Html.DisplayFor(d => data.Ratings)%</span>*@
+                    </div>
+                    @*<div class="ml-product-item-footer">
+                        <div class="ml-genres">
+                            @Html.DisplayFor(d => data.Genres)
+                        </div>
+                        <div class="ml-duration">
+                            <span>🕘</span>
+                            @Html.DisplayFor(d => data.Duration)
+                        </div>
+                    </div>
+                    <div class="ml-show-time">
+
+                        @Html.DisplayFor(d => data.ShowTime, "{0: MMM dd, yyyy}")
+
+                    </div>
+                    <div class="ml-movie-pricing-details">
+                        <!-- {{movie.costPerSeat | currency:'INR'}} -->
+                        <div class="ml-movie-price-age">
+                            <div class="language">
+                                @Html.DisplayFor(d => data.Language)
+                            </div>
+                            <div class="ml-age-rating">
+                                @Html.DisplayFor(d => data.AgeRating)
+                            </div>
+                        </div>
+                        <div class="ml-movie-type">
+                            @Html.DisplayFor(d => data.MovieType)
+                        </div>
+                    </div>*@
+                </div>
+            </a>
+        </li>
+    }
+</ul>
+
+
+<style>
+    .ml-image {
+        height: 200px;
+    }
+
+    .ml-title {
+        display: flex;
+    }
+
+    .ml-ul {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        list-style-type: none;
+        padding: 0;
+    }
+
+        .ml-ul li {
+            margin-bottom: 0.5rem;
+        }
+
+            .ml-ul li a {
+                background-color: white;
+                height: auto;
+                width: 17rem;
+                border: 1px solid whitesmoke;
+                border-radius: 1rem;
+                margin: 0.5rem;
+                display: flex;
+                flex-direction: column;
+                overflow: hidden;
+                color: #e72929;
+            }
+
+                .ml-ul li a:hover {
+                    opacity: 0.75;
+                    transition: 0.3s;
+                    cursor: pointer;
+                    text-decoration: none;
+                    transform: scale(1.02);
+                }
+
+    .ml-content {
+        padding: .5rem 1rem;
+        position: relative;
+    }
+
+    .ml-movie-name {
+        flex: 0.75;
+        font-weight: bold;
+    }
+
+    .ml-favorite {
+        position: absolute;
+        top: .5rem;
+        right: 1rem;
+        font-size: 1.2rem;
+    }
+
+    .ml-product-item-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .ml-genres {
+        border-radius: 2rem;
+        background-color: whitesmoke;
+        color: grey;
+        font-size: .8rem;
+        margin-right: .3rem;
+        display: inline-block;
+        flex: 0.96;
+    }
+
+    .ml-duration {
+        font-size: 1rem;
+        text-align: center;
+    }
+
+    .ml-show-time {
+        color: #424242;
+        margin-top: .2rem;
+    }
+
+
+    /* FILTER COMPONENT */
+    .ml-filter-comp {
+        display: flex;
+        justify-content: center;
+        margin-top: 3rem;
+        margin-bottom: 1.5rem;
+    }
+
+        .ml-filter-comp input {
+            border-radius: 10rem 0 0 10rem;
+            width: 20rem;
+            height: 3rem;
+            background-color: #f1f1f1;
+            padding: 1.2rem;
+            text-align: center;
+            font-weight: 500;
+            font-size: 1rem;
+            outline: none;
+            border: none;
+        }
+
+        .ml-filter-comp button {
+            height: 3rem;
+            width: 5rem;
+            font-size: 1rem;
+            border-radius: 0 10rem 10rem 0;
+            outline: none;
+            background-color: #e72929;
+            color: white;
+            border: none;
+        }
+
+            .ml-filter-comp button:hover {
+                opacity: 0.9;
+                transition: 0.3s;
+                cursor: pointer;
+            }
+
+    .ml-movie-pricing-details {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .ml-movie-price-age {
+        display: flex;
+    }
+
+    .ml-age-rating {
+        margin-left: 0.5rem;
+    }
+
+    .ml-movie-type {
+        background-color: #e72929;
+        border-radius: 1rem;
+        color: white;
+        padding: 0.1rem 0.5rem;
+    }
+</style>
