@@ -39,9 +39,9 @@
             /* overflow-y: auto; */
         }
 
-            .content::-webkit-scrollbar {
-                display: none;
-            }
+        .content::-webkit-scrollbar {
+            display: none;
+        }
 
         .content {
             -ms-overflow-style: none; /* IE and Edge */
@@ -52,9 +52,9 @@
             overflow-x: hidden;
         }
 
-            .ws-content::-webkit-scrollbar {
-                display: none;
-            }
+        .ws-content::-webkit-scrollbar {
+            display: none;
+        }
 
         .ws-content {
             -ms-overflow-style: none; /* IE and Edge */
@@ -148,52 +148,6 @@
     </style>
 </head>
 <body>
-    @*<div>
-        <header>
-            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-                <div class="container-fluid">
-                    <a class="navbar-brand" asp-area="" asp-controller="BlobImage" asp-action="UploadImageToBlob">Azure Tutorial</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                        <ul class="navbar-nav flex-grow-1">
-                            
-                                <a class="nav-link text-dark" asp-area="" asp-controller="BlobImage" asp-action="UploadImageToBlob">Upload Image</a>
-                           
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="BlobImage" asp-action="ImageList">Images List</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="BlobCSV" asp-action="UploadCSVToBlob">Upload CSV</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="ServiceBus" asp-action="UploadMessageToServiceBus">Service Bus</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="ServiceBus" asp-action="RecieveMessageFromServiceBus">Service Bus Messages</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="KeyVault" asp-action="Index">KV Values</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-        </header>
-        <div class="container">
-            <main role="main" class="pb-3">
-                @RenderBody()
-            </main>
-        </div>
-
-        <footer class="border-top footer text-muted">
-            <div class="container">
-                &copy; 2022 - AzureAssessment - Created by Anshul Bansal
-            </div>
-        </footer>
-    </div>*@
     <div class="application-div">
         <header class="main-header">
             <div class="header-containerr">
@@ -210,43 +164,21 @@
                 </nav>
             </div>
         </header>
-      
             <div class="application-content">
-
                 <div class="sidebar">
-                   
                         <div class="sidenav">
-                    
                             <a class="nav-link" asp-area="" asp-controller="BlobImage" asp-action="UploadImageToBlob">Upload Image</a>
-                   
-                    
                             <a class="nav-link" asp-area="" asp-controller="BlobImage" asp-action="ImageList">Images List</a>
-                   
-                    
                             <a class="nav-link" asp-area="" asp-controller="BlobCSV" asp-action="UploadCSVToBlob">Upload CSV</a>
-                   
-                    
                             <a class="nav-link" asp-area="" asp-controller="ServiceBus" asp-action="UploadMessageToServiceBus">Service Bus</a>
-                   
-                    
                             <a class="nav-link" asp-area="" asp-controller="ServiceBus" asp-action="RecieveMessageFromServiceBus">Service Bus Messages</a>
-                   
-                    
                             <a class="nav-link" asp-area="" asp-controller="KeyVault" asp-action="Index">KV Values</a>
-                   
                         </div>
-                
-
                 </div>
-
                 <div class="content">
                     @RenderBody()
                 </div>
             </div>
-       
-        
-
-
     </div>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
