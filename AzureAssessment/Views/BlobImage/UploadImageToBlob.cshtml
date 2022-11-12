@@ -1,6 +1,6 @@
 ﻿@model Image;
 
-<div class="container">
+@*<div class="container">
     <form asp-action="UploadImageToBlob" enctype="multipart/form-data">
         <input asp-for="ImageCaption" placeholder="Enter Image Caption" />
         <br />
@@ -13,4 +13,105 @@
 
         <input type="submit" />
     </form>
+</div>*@
+
+<br />
+<div class="container" style="padding-top:20px;">
+    <div class="row">
+        <div class="col-md-7 mx-auto">
+            <div class="card-group">
+                <div class="card p-4">
+                    <div class="card-body">
+                        <form class="am-form" asp-action="UploadImageToBlob" enctype="multipart/form-data" method="post">
+                            <h1 style="text-align:center; color:#e72929;">Upload Image</h1>
+                            
+                            <hr />
+                            <br />
+
+                            <div class="input-group am-form-row mb-3">
+                                <div class="form-text am-form-row-label">Image Caption</div>
+                                <div class="ig">
+                                    <input type="text"
+                                           class="form-control am-form-row-input"
+                                           placeholder="Enter your Image Caption here..."
+                                           asp-for="ImageCaption">
+                                    <span asp-validation-for="ImageCaption" class="form-text text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="input-group am-form-row mb-3">
+                                <div class="form-text am-form-row-label">Image Description</div>
+                                <div class="ig">
+                                    <input type="text"
+                                           class="form-control am-form-row-input"
+                                           placeholder="Enter your Image Description here..."
+                                           asp-for="ImageDescription">
+                                    <span asp-validation-for="ImageDescription" class="form-text text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="input-group am-form-row mb-3">
+                                <div class="form-text am-form-row-label">Select Image</div>
+                                <div class="ig">
+                                    <input type="file"
+                                           class="form-control am-form-row-input"
+                                           asp-for="MyImage" 
+                                           accept="image/png, image/gif, image/jpeg">
+                                    <span asp-validation-for="MyImage" class="form-text text-danger"></span>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="button-div">
+                                <div class="">
+                                    <button type="submit" class="btn btn-success px-4">Upload Image</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+<style>
+    .ig > span {
+        width: 100%;
+        font-size: 0.95rem;
+        font-weight: bolder;
+    }
+    .am-form-row {
+        display: flex;
+    }
+
+    .am-form-row-label {
+        flex: 0.35;
+        font: 8px;
+    }
+
+    .ig {
+        flex: 0.65;
+    }
+
+    .am-form-row-select {
+        display: flex;
+    }
+
+    .am-form-row-label-select {
+        flex: 0.35;
+    }
+
+    .am-checkbox {
+        height: 30px;
+        width: 30px;
+    }
+    
+    .button-div{
+        display:flex;
+        justify-content:center;
+    }
+</style>
