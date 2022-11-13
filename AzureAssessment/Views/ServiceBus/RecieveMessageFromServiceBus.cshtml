@@ -1,6 +1,6 @@
 ﻿@model RecieveMessages;
 
-<div class="container">
+@*<div class="container">
     <form asp-action="RecieveMessageFromServiceBus" enctype="multipart/form-data">
         <input asp-for="MessageCount" type="number" />
         <br />
@@ -14,4 +14,138 @@
             <h3>@Html.DisplayFor(d => message)</h3>
         }
     }
-</div>
+</div>*@
+
+@if (Model.Messages == null)
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-md-7 mx-auto">
+                <div class="card-group">
+                    <div class="card p-4">
+                        <div class="card-body">
+                            <form class="am-form" asp-action="RecieveMessageFromServiceBus" enctype="multipart/form-data" method="post">
+                                <h1 style="text-align:center; color:#e72929;">Recieve Message</h1>
+                                <h5 style="text-align:center; color:#e72929;">Azure Service Bus Queue</h5>
+
+
+                                <hr />
+                                <br />
+
+                                <div class="input-group form-row mb-3">
+                                    <div class="form-row-label">Message Count</div>
+                                    <div class="form-row-input">
+                                        <input type="number"
+                                           class="form-control form-row-input"
+                                           asp-for="MessageCount">
+                                        <span asp-validation-for="MessageCount" class="form-text text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="button-div">
+                                    <div class="">
+                                        <button type="submit" class="btn btn-success px-4">Receive</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+else{
+    <div class="rcv-container">
+        <div class="rcv-form">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-9 mx-auto">
+                        <div class="card-group">
+                            <div class="card p-4">
+                                <div class="card-body">
+                                    <form class="am-form" asp-action="RecieveMessageFromServiceBus" enctype="multipart/form-data" method="post">
+                                        <h1 style="text-align:center; color:#e72929;">Recieve Message</h1>
+                                        <h5 style="text-align:center; color:#e72929;">Azure Service Bus Queue</h5>
+
+
+                                        <hr />
+                                        <br />
+
+                                        <div class="input-group form-row mb-3">
+                                            <div class="form-row-label">Message Count</div>
+                                            <div class="form-row-input">
+                                                <input type="number"
+                                                   class="form-control form-row-input"
+                                                   asp-for="MessageCount">
+                                                <span asp-validation-for="MessageCount" class="form-text text-danger"></span>
+                                            </div>
+                                        </div>
+                                        <div class="button-div">
+                                            <div class="">
+                                                <button type="submit" class="btn btn-success px-4">Receive</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="rcv-message-list" style="color:white;">
+            @foreach (var message in @Model.Messages)
+            {
+                <h3>@Html.DisplayFor(d => message)</h3>
+            }
+        </div>
+    </div>
+}
+
+
+<style>
+    .rcv-container{
+        display:flex;
+    }
+
+    .rcv-form{
+        flex:0.5;
+    }
+
+    .rcv-message-list {
+        flex: 0.5;
+    }
+    .container {
+        margin: 40px 0;
+    }
+    
+    .form-row {
+        display: flex;
+    }
+
+    .form-row-label {
+        flex: 0.35;
+        font: 8px;
+        padding: 5px 0;
+    }
+
+    .form-row-input {
+        flex: 0.65;
+    }
+
+    .form-row-input > span {
+         width: 100%;
+         font-size: 0.95rem;
+         font-weight: bolder;
+     }
+
+    .button-div{
+        display:flex;
+        justify-content:center;
+    }
+</style>
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
