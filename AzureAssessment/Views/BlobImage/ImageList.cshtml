@@ -24,8 +24,8 @@
                         <div class="ml-title">
                             <div class="ml-movie-name">
                                 @{
-                                    string imageName = image.ImageName;
-                                    if (imageName.Length > 22)
+                                    string imageName = image.ImageName == null ? "" : image.ImageName;
+                                    if (imageName?.Length > 22)
                                     {
                                         imageName = imageName.Substring(0, 22);
                                         imageName += "...";

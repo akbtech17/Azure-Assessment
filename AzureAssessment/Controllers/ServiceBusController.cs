@@ -11,7 +11,7 @@ namespace AzureAssessment.Controllers
 		
 		private static string? _connectionString;
 		private static string? _serviceBusQueueName;
-		private static ServiceBusClient _client;
+		private static ServiceBusClient? _client;
 		public ServiceBusController() {
 			var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: false);
 			IConfiguration configuration = builder.Build();
