@@ -112,9 +112,9 @@
         }
 
         .main-header {
-            background-color: whitesmoke;
+            background-color: black;
             padding: 0;
-            border-bottom: 1px solid #e72929;
+            border-bottom: 2px solid whitesmoke;
         }
 
         .header-containerr {
@@ -139,7 +139,8 @@
         }
 
         .header-links a {
-            color: #af1313;
+            color: white;
+            
             padding: 1em;
             display: inline-block;
             list-style-type: none;
@@ -152,6 +153,7 @@
             opacity: 0.9;
             transition: 0.3s;
             cursor: pointer;
+            font-weight: bolder;
         }
 
         .header-logo:hover {
@@ -169,7 +171,6 @@
                 <a class="header-logo" asp-controller="Movie" asp-action="List">Azure Tutorial </a>
                 <nav>
                     <ul class="header-links-list">
-                        
                             <li class="header-links">
                                 <a asp-controller="BlobImage" asp-action="UploadImageToBlob">Blob</a>
                                 <a asp-controller="ServiceBus" asp-action="UploadMessageToServiceBus">Service Bus</a>

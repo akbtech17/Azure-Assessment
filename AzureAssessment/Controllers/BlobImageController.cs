@@ -14,7 +14,6 @@ namespace AzureAssessment.Controllers
         BlobServiceClient? _serviceClient;
 		BlobContainerClient? _containerClient;
 
-
 		public BlobImageController(IConfiguration configuration)
 		{
 			try
