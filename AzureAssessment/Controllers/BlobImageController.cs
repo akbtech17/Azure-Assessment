@@ -15,8 +15,8 @@ namespace AzureAssessment.Controllers
 	{
 		private static string? _containerName;
 		private static string? _connectionString;
-		BlobServiceClient _serviceClient;
-		BlobContainerClient _containerClient;
+		BlobServiceClient? _serviceClient;
+		BlobContainerClient? _containerClient;
 
 		public BlobImageController()
 		{
