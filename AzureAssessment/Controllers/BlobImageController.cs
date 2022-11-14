@@ -59,9 +59,9 @@ namespace AzureAssessment.Controllers
 		public IActionResult ImageList() 
 		{
 			List<Image> images = new List<Image>();
-			foreach (BlobItem item in _containerClient.GetBlobs())
+            foreach (BlobItem item in _containerClient.GetBlobs())
 			{
-				images.Add(new Image { ImageName = item.Name, ImageUrl = "https://storageaccount94111.blob.core.windows.net/images/"+item.Name });
+                images.Add(new Image { ImageName = item.Name, ImageUrl = "https://storageaccount94111.blob.core.windows.net/images/"+item.Name});
 			}
 			return View(images);
 		}
