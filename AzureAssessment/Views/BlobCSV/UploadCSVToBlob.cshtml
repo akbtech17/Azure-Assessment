@@ -1,62 +1,72 @@
 ﻿@model CSVFile;
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-7 mx-auto">
-            <div class="card-group">
-                <div class="card p-4">
-                    <div class="card-body">
-                        <form class="am-form" asp-action="UploadCSVToBlob" enctype="multipart/form-data" method="post">
-                            <h1 style="text-align:center; color:#e72929;">Upload CSV File</h1>
-                            
-                            <hr />
-                            <br />
+<div class="sidebar">
+    <div class="sidenav">
+        <a class="nav-link" asp-area="" asp-controller="BlobImage" asp-action="UploadImageToBlob">Upload Image</a>
+        <a class="nav-link" asp-area="" asp-controller="BlobImage" asp-action="ImageList">Images List</a>
+        <a class="nav-link" asp-area="" asp-controller="BlobCSV" asp-action="UploadCSVToBlob">Upload CSV</a>
+    </div>
+</div>
+<div class="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-7 mx-auto">
+                <div class="card-group">
+                    <div class="card p-4">
+                        <div class="card-body">
+                            <form class="am-form" asp-action="UploadCSVToBlob" enctype="multipart/form-data" method="post">
+                                <h1 style="text-align:center; color:#e72929;">Upload CSV File</h1>
 
-                            <div class="input-group form-row mb-3">
-                                <div class="form-row-label">File Caption</div>
-                                <div class="form-row-input">
-                                    <input type="text"
-                                           class="form-control form-row-input"
-                                           placeholder="Enter your File Caption here..."
-                                           asp-for="FileCaption">
-                                    <span asp-validation-for="FileCaption" class="form-text text-danger"></span>
-                                </div>
-                            </div>
+                                <hr />
+                                <br />
 
-                            <div class="input-group form-row mb-3">
-                                <div class="form-row-label">File Description</div>
-                                <div class="form-row-input">
-                                    <input type="text"
-                                           class="form-control form-row-input"
-                                           placeholder="Enter your File Description here..."
-                                           asp-for="FileDescription">
-                                    <span asp-validation-for="FileDescription" class="form-text text-danger"></span>
+                                <div class="input-group form-row mb-3">
+                                    <div class="form-row-label">File Caption</div>
+                                    <div class="form-row-input">
+                                        <input type="text"
+                                               class="form-control form-row-input"
+                                               placeholder="Enter your File Caption here..."
+                                               asp-for="FileCaption">
+                                        <span asp-validation-for="FileCaption" class="form-text text-danger"></span>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="input-group form-row mb-3">
-                                <div class="form-row-label">Select File</div>
-                                <div class="form-row-input">
-                                    <input type="file"
-                                           class="form-control form-row-input"
-                                           asp-for="MyFile" 
-                                           accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-exce">
-                                    <span asp-validation-for="MyFile" class="form-text text-danger"></span>
+                                <div class="input-group form-row mb-3">
+                                    <div class="form-row-label">File Description</div>
+                                    <div class="form-row-input">
+                                        <input type="text"
+                                               class="form-control form-row-input"
+                                               placeholder="Enter your File Description here..."
+                                               asp-for="FileDescription">
+                                        <span asp-validation-for="FileDescription" class="form-text text-danger"></span>
+                                    </div>
                                 </div>
-                            </div>
-                            <br />
-                            <div class="button-div">
-                                <div class="">
-                                    <button type="submit" class="btn btn-success px-4">Upload File</button>
+
+                                <div class="input-group form-row mb-3">
+                                    <div class="form-row-label">Select File</div>
+                                    <div class="form-row-input">
+                                        <input type="file"
+                                               class="form-control form-row-input"
+                                               asp-for="MyFile"
+                                               accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-exce">
+                                        <span asp-validation-for="MyFile" class="form-text text-danger"></span>
+                                    </div>
                                 </div>
-                            </div>
-                        </form>
+                                <br />
+                                <div class="button-div">
+                                    <div class="">
+                                        <button type="submit" class="btn btn-success px-4">Upload File</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 
 <style>
     .container {

@@ -181,20 +181,8 @@
             </div>
         </header>
             <div class="application-content">
-                <div class="sidebar">
-                        <div class="sidenav">
-                            <a class="nav-link" asp-area="" asp-controller="BlobImage" asp-action="UploadImageToBlob">Upload Image</a>
-                            <a class="nav-link" asp-area="" asp-controller="BlobImage" asp-action="ImageList">Images List</a>
-                            <a class="nav-link" asp-area="" asp-controller="BlobCSV" asp-action="UploadCSVToBlob">Upload CSV</a>
-                            <a class="nav-link" asp-area="" asp-controller="ServiceBus" asp-action="UploadMessageToServiceBus">Service Bus</a>
-                            <a class="nav-link" asp-area="" asp-controller="ServiceBus" asp-action="RecieveMessageFromServiceBus">Service Bus Messages</a>
-                            <a class="nav-link" asp-area="" asp-controller="KeyVault" asp-action="Index">KV Values</a>
-                        </div>
-                </div>
-                <div class="content">
-                    @RenderBody()
-                </div>
-            </div>
+            @RenderBody()
+                
     </div>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

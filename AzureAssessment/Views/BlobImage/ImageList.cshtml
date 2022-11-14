@@ -1,63 +1,77 @@
 ﻿@model IEnumerable<Image>
 
+<div class="sidebar">
+    <div class="sidenav">
+        <a class="nav-link" asp-area="" asp-controller="BlobImage" asp-action="UploadImageToBlob">Upload Image</a>
+        <a class="nav-link" asp-area="" asp-controller="BlobImage" asp-action="ImageList">Images List</a>
+        <a class="nav-link" asp-area="" asp-controller="BlobCSV" asp-action="UploadCSVToBlob">Upload CSV</a>
+        @*<a class="nav-link" asp-area="" asp-controller="ServiceBus" asp-action="UploadMessageToServiceBus">Service Bus</a>
+        <a class="nav-link" asp-area="" asp-controller="ServiceBus" asp-action="RecieveMessageFromServiceBus">Service Bus Messages</a>
+        <a class="nav-link" asp-area="" asp-controller="KeyVault" asp-action="Index">KV Values</a>*@
+    </div>
+</div>
+<div class="content">
     <br />
-<h1 style="text-align:center; color:#e72929;">Image List</h1>
-<hr style="color:white;"/>
-<ul class="ml-ul">
-    @foreach (var image in @Model)
-    {
-
-        <li>
-            <a href="@Url.Action("Details","Movie", new {id = image.ImageUrl})">
-                <img class="ml-image" src="@Html.DisplayFor(d => image.ImageUrl)" alt="foods-image">
-                <div class="ml-content">
-                    <div class="ml-title">
-                        <div class="ml-movie-name">
-                            @{
-                                string imageName = image.ImageName;
-                                if (imageName.Length > 22)
-                                {
-                                    imageName = imageName.Substring(0, 22);
-                                    imageName += "...";
+    <h1 style="text-align:center; color:#e72929;">Image List</h1>
+    <hr style="color:white;" />
+    <ul class="ml-ul">
+        @foreach (var image in @Model)
+        {
+            <li>
+                <a href="@Url.Action("Details","Movie", new {id = image.ImageUrl})">
+                    <img class="ml-image" src="@Html.DisplayFor(d => image.ImageUrl)" alt="foods-image">
+                    <div class="ml-content">
+                        <div class="ml-title">
+                            <div class="ml-movie-name">
+                                @{
+                                    string imageName = image.ImageName;
+                                    if (imageName.Length > 22)
+                                    {
+                                        imageName = imageName.Substring(0, 22);
+                                        imageName += "...";
+                                    }
                                 }
-                            }
-                            @imageName
+                                @imageName
+                            </div>
+                            @*<span class="ml-favorite">❤@Html.DisplayFor(d => data.Ratings)%</span>*@
                         </div>
-                        @*<span class="ml-favorite">❤@Html.DisplayFor(d => data.Ratings)%</span>*@
+                        @*<div class="ml-product-item-footer">
+                    <div class="ml-genres">
+                    @Html.DisplayFor(d => data.Genres)
                     </div>
-                    @*<div class="ml-product-item-footer">
-                        <div class="ml-genres">
-                            @Html.DisplayFor(d => data.Genres)
-                        </div>
-                        <div class="ml-duration">
-                            <span>🕘</span>
-                            @Html.DisplayFor(d => data.Duration)
-                        </div>
+                    <div class="ml-duration">
+                    <span>🕘</span>
+                    @Html.DisplayFor(d => data.Duration)
+                    </div>
                     </div>
                     <div class="ml-show-time">
 
-                        @Html.DisplayFor(d => data.ShowTime, "{0: MMM dd, yyyy}")
+                    @Html.DisplayFor(d => data.ShowTime, "{0: MMM dd, yyyy}")
 
                     </div>
                     <div class="ml-movie-pricing-details">
-                        <!-- {{movie.costPerSeat | currency:'INR'}} -->
-                        <div class="ml-movie-price-age">
-                            <div class="language">
-                                @Html.DisplayFor(d => data.Language)
-                            </div>
-                            <div class="ml-age-rating">
-                                @Html.DisplayFor(d => data.AgeRating)
-                            </div>
-                        </div>
-                        <div class="ml-movie-type">
-                            @Html.DisplayFor(d => data.MovieType)
-                        </div>
+                    <!-- {{movie.costPerSeat | currency:'INR'}} -->
+                    <div class="ml-movie-price-age">
+                    <div class="language">
+                    @Html.DisplayFor(d => data.Language)
+                    </div>
+                    <div class="ml-age-rating">
+                    @Html.DisplayFor(d => data.AgeRating)
+                    </div>
+                    </div>
+                    <div class="ml-movie-type">
+                    @Html.DisplayFor(d => data.MovieType)
+                    </div>
                     </div>*@
-                </div>
-            </a>
-        </li>
-    }
-</ul>
+                    </div>
+                </a>
+            </li>
+        }
+    </ul>
+</div>
+     
+
+
 
 
 <style>

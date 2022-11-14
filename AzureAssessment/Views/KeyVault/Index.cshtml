@@ -1,53 +1,61 @@
 ﻿@model KeyVault;
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-7 mx-auto">
-            <div class="card-group">
-                <div class="card p-4">
-                    <div class="card-body">
-                        <form class="am-form" asp-action="Index" enctype="multipart/form-data" method="post">
-                            <h1 style="text-align:center; color:#e72929;">Get Secret from Key Vault</h1>
-                            
-                            <hr />
-                            <br />
+<div class="sidebar">
+    <div class="sidenav">
+        <a class="nav-link" asp-area="" asp-controller="KeyVault" asp-action="Index">KV Values</a>
+    </div>
+</div>
+<div class="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-7 mx-auto">
+                <div class="card-group">
+                    <div class="card p-4">
+                        <div class="card-body">
+                            <form class="am-form" asp-action="Index" enctype="multipart/form-data" method="post">
+                                <h1 style="text-align:center; color:#e72929;">Get Secret from Key Vault</h1>
 
-                            <div class="input-group form-row mb-3">
-                                <div class="form-row-label">Secret Key</div>
-                                <div class="form-row-input">
-                                    <input type="text"
-                                           class="form-control form-row-input"
-                                           placeholder="Enter your key here..."
-                                           asp-for="Key">
-                                    <span asp-validation-for="Key" class="form-text text-danger"></span>
-                                </div>
-                            </div>
-                            <div class="button-div">
-                                <div class="">
-                                    <button type="submit" class="btn btn-success px-4">Find</button>
-                                </div>
-                            </div>
-
-                             @if (Model.Value != "")
-                            {
                                 <hr />
+                                <br />
+
                                 <div class="input-group form-row mb-3">
-                                    <div class="form-row-label">Secret Value</div>
+                                    <div class="form-row-label">Secret Key</div>
                                     <div class="form-row-input">
                                         <input type="text"
-                                           class="form-control form-row-input"
-                                           readonly
-                                           value="@Html.DisplayFor(d => d.Value)">
+                                               class="form-control form-row-input"
+                                               placeholder="Enter your key here..."
+                                               asp-for="Key">
+                                        <span asp-validation-for="Key" class="form-text text-danger"></span>
                                     </div>
                                 </div>
-                            }
-                        </form>
+                                <div class="button-div">
+                                    <div class="">
+                                        <button type="submit" class="btn btn-success px-4">Find</button>
+                                    </div>
+                                </div>
+
+                                @if (Model.Value != "")
+                                {
+                                    <hr />
+                                    <div class="input-group form-row mb-3">
+                                        <div class="form-row-label">Secret Value</div>
+                                        <div class="form-row-input">
+                                            <input type="text"
+                                               class="form-control form-row-input"
+                                               readonly
+                                               value="@Html.DisplayFor(d => d.Value)">
+                                        </div>
+                                    </div>
+                                }
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 
 <style>
     .container {
