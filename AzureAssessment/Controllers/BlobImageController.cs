@@ -1,4 +1,5 @@
-﻿using Azure.Storage.Blobs;
+﻿using Azure;
+using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using AzureAssessment.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -19,13 +20,20 @@ namespace AzureAssessment.Controllers
 
 		public BlobImageController()
 		{
-			var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: false);
-			IConfiguration configuration = builder.Build();
-			_connectionString = configuration.GetValue<string>("ConnectionStrings:BlobConnectionString");
-			_containerName = configuration.GetValue<string>("BlobContainerName");
+			try 
+			{
+                var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: false);
+                IConfiguration configuration = builder.Build();
+                _connectionString = configuration.GetValue<string>("ConnectionStrings:BlobConnectionString");
+                _containerName = configuration.GetValue<string>("BlobContainerName");
 
-			_serviceClient = new BlobServiceClient(_connectionString);
-			_containerClient = _serviceClient.GetBlobContainerClient(_containerName);
+                _serviceClient = new BlobServiceClient(_connectionString);
+                _containerClient = _serviceClient.GetBlobContainerClient(_containerName);
+            }
+			catch(Exception ex) 
+			{
+				Console.WriteLine(ex.Message);
+			}
 		}
 
 		[HttpGet]
@@ -41,9 +49,9 @@ namespace AzureAssessment.Controllers
 			{
 				IFormFile image = imageInfo.MyImage;
 				string? imgCaption = imageInfo.ImageCaption;
-				string? contentType = imageInfo.MyImage.ContentType;
+				string? imgDescription = imageInfo.ImageDescription;
 
-				UploadImageBlob(image);
+				UploadImageBlob(image,imgCaption, imgDescription);
 			}
 			return View();
 		}
@@ -58,14 +66,23 @@ namespace AzureAssessment.Controllers
 			return View(images);
 		}
 
-		public void UploadImageBlob(IFormFile image)
+		public void UploadImageBlob(IFormFile image, string? caption, string? descritpion)
 		{
-			BlobClient blobClient = _containerClient.GetBlobClient(image.FileName);
-			using (var stream = image.OpenReadStream())
+			try 
 			{
-				blobClient.Upload(stream);
-			}
-			Console.WriteLine($"{image.FileName} has been uploaded to {_containerName} conatainer of Blob Storage");
+                BlobClient blobClient = _containerClient.GetBlobClient(image.FileName);
+                using (var stream = image.OpenReadStream()) blobClient.Upload(stream);
+
+                IDictionary<string, string> metadata = new Dictionary<string, string>();
+                if (caption != null) metadata.Add("Caption", caption);
+                if (descritpion != null) metadata.Add("Description", descritpion);
+                blobClient.SetMetadata(metadata);
+                Console.WriteLine($"{image.FileName} has been uploaded to {_containerName} conatainer of Blob Storage");
+            }
+			catch (RequestFailedException ex) {
+				Console.WriteLine($"HTTP error code {ex.Status}: {ex.ErrorCode}");
+				Console.WriteLine(ex.Message);
+            }
 		}
 	}
 }
