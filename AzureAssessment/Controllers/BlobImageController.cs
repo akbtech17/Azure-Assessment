@@ -4,6 +4,7 @@ using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using AzureAssessment.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Reflection;
 
 namespace AzureAssessment.Controllers
 {
@@ -55,14 +56,14 @@ namespace AzureAssessment.Controllers
 					UploadImageBlob(image, imgCaption, imgDescription);
 				}
                 _notyf.Success("Image Uploaded Successfully!");
+                return RedirectToAction("ImageList");
             }
 			catch (Exception ex)
 			{
                 _notyf.Error("Internal Error Occurred!");
                 Console.WriteLine(ex.Message);
+				return View();
 			}
-            
-            return View();
 		}
 
 		public IActionResult ImageList() 
