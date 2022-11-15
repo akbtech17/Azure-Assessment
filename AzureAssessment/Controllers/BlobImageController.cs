@@ -96,7 +96,7 @@ namespace AzureAssessment.Controllers
 		public void UploadImageBlob(IFormFile image, string? caption, string? descritpion)
 		{
 			BlobClient? blobClient = _containerClient?.GetBlobClient(image.FileName);
-			using (var stream = image.OpenReadStream()) 
+			using (Stream stream = image.OpenReadStream()) 
 				blobClient?.Upload(stream);
 
 			IDictionary<string, string> metadata = new Dictionary<string, string>();
