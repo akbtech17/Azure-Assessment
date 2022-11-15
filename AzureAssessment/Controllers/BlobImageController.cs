@@ -4,7 +4,6 @@ using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using AzureAssessment.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Reflection;
 
 namespace AzureAssessment.Controllers
 {
@@ -69,6 +68,7 @@ namespace AzureAssessment.Controllers
 			return View();
 		}
 
+		[HttpGet]
 		public IActionResult ImageList() 
 		{
             List<Image> images = new List<Image>();
