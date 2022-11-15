@@ -1,4 +1,5 @@
-﻿using Azure;
+﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using Azure;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using AzureAssessment.Models;
@@ -13,17 +14,20 @@ namespace AzureAssessment.Controllers
 		private static string? _imageBaseUrl;
         BlobServiceClient? _serviceClient;
 		BlobContainerClient? _containerClient;
+        private readonly INotyfService? _notyf;
 
-		public BlobImageController(IConfiguration configuration)
+        public BlobImageController(IConfiguration configuration, INotyfService notyf)
 		{
 			try
-			{ 
-                _connectionString = configuration.GetValue<string>("ConnectionStrings:BlobConnectionString");
-                _containerName = configuration.GetValue<string>("BlobContainerName");
+			{
+                _notyf = notyf;
+				_connectionString = configuration.GetValue<string>("ConnectionStrings:BlobConnectionString");
+				_containerName = configuration.GetValue<string>("BlobContainerName");
 				_imageBaseUrl = configuration.GetValue<string>("BlobImagesBaseUrl");
 
-                _serviceClient = new BlobServiceClient(_connectionString);
-                _containerClient = _serviceClient.GetBlobContainerClient(_containerName);
+				_serviceClient = new BlobServiceClient(_connectionString);
+				_containerClient = _serviceClient.GetBlobContainerClient(_containerName);
+                
             }
 			catch(Exception ex) 
 			{
@@ -40,15 +44,25 @@ namespace AzureAssessment.Controllers
 		[HttpPost]
 		public IActionResult UploadImageToBlob(Image imageInfo) 
 		{
-			if (imageInfo != null && imageInfo.MyImage != null) 
+			try
 			{
-				IFormFile image = imageInfo.MyImage;
-				string? imgCaption = imageInfo.ImageCaption;
-				string? imgDescription = imageInfo.ImageDescription;
+				if (imageInfo != null && imageInfo.MyImage != null)
+				{
+					IFormFile image = imageInfo.MyImage;
+					string? imgCaption = imageInfo.ImageCaption;
+					string? imgDescription = imageInfo.ImageDescription;
 
-				UploadImageBlob(image,imgCaption, imgDescription);
+					UploadImageBlob(image, imgCaption, imgDescription);
+				}
+                _notyf.Success("Image Uploaded Successfully!");
+            }
+			catch (Exception ex)
+			{
+                _notyf.Error("Internal Error Occurred!");
+                Console.WriteLine(ex.Message);
 			}
-			return View();
+            
+            return View();
 		}
 
 		public IActionResult ImageList() 
@@ -77,7 +91,8 @@ namespace AzureAssessment.Controllers
                 Console.WriteLine($"{image.FileName} has been uploaded to {_containerName} conatainer of Blob Storage");
             }
 			catch (RequestFailedException ex) {
-				Console.WriteLine($"HTTP error code {ex.Status}: {ex.ErrorCode}");
+                _notyf.Error("Internal Error Occurred!");
+                Console.WriteLine($"HTTP error code {ex.Status}: {ex.ErrorCode}");
 				Console.WriteLine(ex.Message);
             }
 		}
