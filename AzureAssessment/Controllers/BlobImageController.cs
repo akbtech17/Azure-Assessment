@@ -21,7 +21,7 @@ namespace AzureAssessment.Controllers
 		{
 			try
 			{
-                _notyf = notyf;
+				_notyf = notyf;
 				_connectionString = configuration.GetValue<string>("ConnectionStrings:BlobConnectionString");
 				_containerName = configuration.GetValue<string>("BlobContainerName");
 				_imageBaseUrl = configuration.GetValue<string>("BlobImagesBaseUrl");
@@ -54,48 +54,56 @@ namespace AzureAssessment.Controllers
 					string? imgDescription = imageInfo.ImageDescription;
 
 					UploadImageBlob(image, imgCaption, imgDescription);
+					_notyf.Success("Image Uploaded Successfully!");
+					return RedirectToAction("ImageList");
 				}
-                _notyf.Success("Image Uploaded Successfully!");
-                return RedirectToAction("ImageList");
+				else {
+                    _notyf.Error("Internal Error Occurred!");
+                }
             }
 			catch (Exception ex)
 			{
                 _notyf.Error("Internal Error Occurred!");
                 Console.WriteLine(ex.Message);
-				return View();
 			}
+			return View();
 		}
 
 		public IActionResult ImageList() 
 		{
-			List<Image> images = new List<Image>();
-			if (_containerClient == null) return View(images);
-
-            foreach (BlobItem item in _containerClient.GetBlobs())
+            List<Image> images = new List<Image>();
+            try
 			{
-                images.Add(new Image { ImageName = item.Name, ImageUrl = _imageBaseUrl+item.Name});
-			}
-			return View(images);
-		}
+				if (_containerClient == null) {
+                    _notyf.Error("Internal Error Occurred!");
+                    return View(images);
+                }
+
+				foreach (BlobItem item in _containerClient.GetBlobs())
+				{
+					images.Add(new Image { ImageName = item.Name, ImageUrl = _imageBaseUrl + item.Name });
+				}
+                
+            }
+			catch (Exception ex) 
+			{
+                _notyf.Error("Internal Error Occurred!");
+                Console.WriteLine(ex.Message);
+            }
+            return View(images);
+        }
 
 		public void UploadImageBlob(IFormFile image, string? caption, string? descritpion)
 		{
-			try 
-			{
-                BlobClient? blobClient = _containerClient?.GetBlobClient(image.FileName);
-                using (var stream = image.OpenReadStream()) blobClient?.Upload(stream);
+			BlobClient? blobClient = _containerClient?.GetBlobClient(image.FileName);
+			using (var stream = image.OpenReadStream()) 
+				blobClient?.Upload(stream);
 
-                IDictionary<string, string> metadata = new Dictionary<string, string>();
-                if (caption != null) metadata.Add("Caption", caption);
-                if (descritpion != null) metadata.Add("Description", descritpion);
-                blobClient?.SetMetadata(metadata);
-                Console.WriteLine($"{image.FileName} has been uploaded to {_containerName} conatainer of Blob Storage");
-            }
-			catch (RequestFailedException ex) {
-                _notyf.Error("Internal Error Occurred!");
-                Console.WriteLine($"HTTP error code {ex.Status}: {ex.ErrorCode}");
-				Console.WriteLine(ex.Message);
-            }
+			IDictionary<string, string> metadata = new Dictionary<string, string>();
+			if (caption != null) metadata.Add("Caption", caption);
+			if (descritpion != null) metadata.Add("Description", descritpion);
+			blobClient?.SetMetadata(metadata);
+			Console.WriteLine($"{image.FileName} has been uploaded to {_containerName} conatainer of Blob Storage");   
 		}
 	}
 }
