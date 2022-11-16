@@ -15,6 +15,7 @@ namespace AzureAssessment.Controllers
 		private static ServiceBusClient? client;
         private readonly INotyfService? notyf;
 		private static ServiceBusReceiver reciever;
+
         public ServiceBusController(IConfiguration configuration, INotyfService notyf) {
 			this.notyf = notyf;
 			connectionString = configuration.GetValue<string>("ConnectionStrings:ServiceBusQueueConnectionString");
@@ -58,7 +59,6 @@ namespace AzureAssessment.Controllers
 		{
 			try
 			{
-
 				var messages = reciever.ReceiveMessagesAsync(request.MessageCount).GetAwaiter().GetResult();
                 request.Messages = new List<string>();
                 foreach (var message in messages)
@@ -67,8 +67,6 @@ namespace AzureAssessment.Controllers
                 }
 				if (request.Messages.Count == 0) notyf.Information("Sorry there are 0 messages in queue!");
 				else notyf.Success($"Fetched {request.Messages.Count} messages!");
-
-
             }
 			catch(Exception ex) 
 			{
