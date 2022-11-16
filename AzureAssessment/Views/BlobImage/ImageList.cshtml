@@ -3,14 +3,14 @@
 <div class="sidebar">
     <div class="sidenav">
         <a class="nav-link" asp-area="" asp-controller="BlobImage" asp-action="UploadImageToBlob">Upload Image</a>
-        <a class="nav-link" asp-area="" asp-controller="BlobImage" asp-action="ImageList">Images List</a>
+        <a class="nav-link" asp-area="" asp-controller="BlobImage" asp-action="ImageList">Gallery</a>
         <a class="nav-link" asp-area="" asp-controller="BlobCSV" asp-action="UploadCSVToBlob">Upload CSV</a>
         <a class="nav-link" asp-area="" asp-controller="BlobCSV" asp-action="List">CSV List</a>
     </div>
 </div>
 <div class="content">
     <div class="lhead" style="background-color: whitesmoke; padding: 2px 0; margin-bottom:5px;">
-        <h1 style="text-align:center; color:#e72929;">Image List</h1>
+        <h1 style="text-align:center; color:#e72929;">Gallery</h1>
     </div>
     <ul class="ml-ul">
         @foreach (var image in @Model)
