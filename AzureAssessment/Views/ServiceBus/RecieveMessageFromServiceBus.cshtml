@@ -52,7 +52,7 @@
             <div class="rcv-form">
                 <div class="containerr" style="width:100%;">
                     <div class="row" style="width:100%;">
-                        <div class="col-md-9 mx-auto">
+                        <div class="col-md-11 mx-auto">
                             <div class="card-group">
                                 <div class="card p-4">
                                     <div class="card-body">
@@ -86,34 +86,43 @@
                     </div>
                 </div>
             </div>
+            <div class="vl"></div>
             <div class="rcv-message-list" style="color:white;">
-                <div class="containerr" style="margin-top: 2rem;">
-                    <div class="jumbotron bg-white" style="padding: 1.5rem 2rem">
-                        <h1 style="text-align:center; color:#e72929;">Message List</h1>
-                        <table class="table">
-                            <thead class="head">
-                                <tr>
-                                    <th class="center-align">Sno</th>
-                                    <th>File Name</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @{
-                                    int i = 1;
-                                }
-                                @foreach (var message in @Model.Messages)
-                                {
-                                    <tr class="msg-list">
-                                        <td class="center-align">@i</td>
-                                        @{
-                                            i++;
-                                        }
-                                        <td>@Html.DisplayFor(d => message))</td>
+                <div class="containerr" style="width:100%;">
+                    <div class="row" style="width:100%;">
+                        <div class="col-md-11 mx-auto">
+                            <div class="card-group">
+                                <div class="card p-4">
+                                    <div class="card-body">
+                                        <h1 style="text-align:center; color:#e72929;">Message List</h1>
+                                        <table class="table">
+                                            <thead class="head">
+                                                <tr>
+                                                    <th class="center-align">Sno</th>
+                                                    <th>File Name</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @{
+                                                    int i = 1;
+                                                }
+                                                @foreach (var message in @Model.Messages)
+                                                {
+                                                    <tr class="msg-list">
+                                                        <td class="center-align">@i</td>
+                                                        @{
+                                                            i++;
+                                                        }
+                                                        <td>@Html.DisplayFor(d => message))</td>
 
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -123,11 +132,13 @@
 
 
 
-<style>
-    .container {
-        width: 400px;
-    }
 
+
+<style>
+    .vl {
+        border-left: 2px solid whitesmoke;
+        height: 100vh;
+    }
     .bg-white {
         background-color: white;
     }
@@ -161,8 +172,8 @@
     .center-align {
         text-align: center;
     }
+    
     .rcv-container {
-        
         display: flex;
         flex-direction: row;
         justify-content: center;
