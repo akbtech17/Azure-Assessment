@@ -40,5 +40,20 @@ namespace AzureAssessment.Controllers
             }
 			return View(keyVaultModel);
 		}
+
+		[HttpGet]
+		public IActionResult CreateSecret() 
+		{
+			return View();
+		}
+
+		[HttpPost]
+		public IActionResult CreateSecret(KeyVault keyVaultModel) 
+		{
+			string key = keyVaultModel.Key;
+			string value = keyVaultModel.Value;
+			KeyVaultSecret keyVaultSecret = _secretsClient.SetSecret(key, value);
+            return View();
+		}
 	}
 }
