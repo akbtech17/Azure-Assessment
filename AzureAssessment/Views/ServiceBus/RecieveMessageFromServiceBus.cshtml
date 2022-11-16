@@ -88,13 +88,13 @@
             </div>
             <div class="rcv-message-list" style="color:white;">
                 <div class="container" style="margin-top: 2rem;">
-                    <div class="jumbotron" style="padding: 1.5rem 2rem">
+                    <div class="jumbotron bg-white" style="padding: 1.5rem 2rem">
+                        <h1 style="text-align:center; color:#e72929;">Message List</h1>
                         <table class="table">
-                            <thead class="head" style="color:white;">
+                            <thead class="head">
                                 <tr>
                                     <th class="center-align">Sno</th>
-                                    <th>Message</th>
-                          
+                                    <th>File Name</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -103,17 +103,14 @@
                                 }
                                 @foreach (var message in @Model.Messages)
                                 {
-
-                                    <tr class="amovielist-row" style="color:white;">
-
-
+                                    <tr class="msg-list">
                                         <td class="center-align">@i</td>
                                         @{
                                             i++;
                                         }
                                         <td>@Html.DisplayFor(d => message))</td>
-                                    </tr>
 
+                                    </tr>
                                 }
                             </tbody>
                         </table>
@@ -125,8 +122,17 @@
 </div>
 
 
+
 <style>
-    .amovielist-row:hover {
+    .container {
+        width: 400px;
+    }
+
+    .bg-white {
+        background-color: white;
+    }
+
+    .msg-list:hover {
         cursor: pointer;
         background-color: #e72929;
         color: white;
@@ -146,6 +152,10 @@
         opacity: 0.9;
         transition: 0.3s;
         transform: scale(1.01);
+    }
+
+    .center-align {
+        text-align: center;
     }
 
     .center-align {
