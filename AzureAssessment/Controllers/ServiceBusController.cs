@@ -1,4 +1,5 @@
-﻿using Azure.Messaging.ServiceBus;
+﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using Azure.Messaging.ServiceBus;
 using Azure.Storage.Blobs;
 using AzureAssessment.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -9,28 +10,39 @@ namespace AzureAssessment.Controllers
 	public class ServiceBusController : Controller
 	{
 		
-		private static string? _connectionString;
-		private static string? _serviceBusQueueName;
-		private static ServiceBusClient? _client;
-		public ServiceBusController() {
-			var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: false);
-			IConfiguration configuration = builder.Build();
-			_connectionString = configuration.GetValue<string>("ConnectionStrings:ServiceBusQueueConnectionString");
-			_serviceBusQueueName = configuration.GetValue<string>("ServiceBusQueueName");
-			_client = new ServiceBusClient(_connectionString);
-		}	
+		private static string? connectionString;
+		private static string? serviceBusQueueName;
+		private static ServiceBusClient? client;
+        private readonly INotyfService? notyf;
+		private static ServiceBusReceiver reciever;
+        public ServiceBusController(IConfiguration configuration, INotyfService notyf) {
+			this.notyf = notyf;
+			connectionString = configuration.GetValue<string>("ConnectionStrings:ServiceBusQueueConnectionString");
+			serviceBusQueueName = configuration.GetValue<string>("ServiceBusQueueName");
+			client = new ServiceBusClient(connectionString);
+            reciever = client.CreateReceiver(serviceBusQueueName, new ServiceBusReceiverOptions() { ReceiveMode = ServiceBusReceiveMode.PeekLock });
+        }	
 		public IActionResult UploadMessageToServiceBus()
 		{
 			return View();
 		}
 
 		[HttpPost]
-		public IActionResult UploadMessageToServiceBus(Message message)
+		public IActionResult UploadMessageToServiceBus(Message messageModel)
 		{
-			ServiceBusSender _sender = _client.CreateSender(_serviceBusQueueName);
-			ServiceBusMessage _message = new ServiceBusMessage(message.MessageString);
-			_sender.SendMessageAsync(_message).GetAwaiter().GetResult();
-			Console.WriteLine("Message Sent");
+			try
+			{
+                ServiceBusSender sender = client.CreateSender(serviceBusQueueName);
+                ServiceBusMessage message = new ServiceBusMessage(messageModel.MessageString);
+                sender.SendMessageAsync(message).GetAwaiter().GetResult();
+                Console.WriteLine("Message Sent");
+                notyf.Success("Message sent successfully!");
+            }
+			catch(Exception ex) 
+			{
+				Console.WriteLine(ex.Message);
+				notyf.Error(ex.InnerException.Message);
+			}
 			return View();
 		}
 
@@ -42,14 +54,26 @@ namespace AzureAssessment.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult RecieveMessageFromServiceBus(RecieveMessages request) 
+		public async Task<IActionResult> RecieveMessageFromServiceBusAsync(RecieveMessages request) 
 		{
-			ServiceBusReceiver _reciever = _client.CreateReceiver(_serviceBusQueueName, new ServiceBusReceiverOptions() { ReceiveMode = ServiceBusReceiveMode.PeekLock });
-			var _messages = _reciever.ReceiveMessagesAsync(request.MessageCount).GetAwaiter().GetResult();
-			request.Messages = new List<string>();
-			foreach (var _message in _messages)
+			try
 			{
-				request.Messages.Add(_message.Body.ToString());
+
+				var messages = reciever.ReceiveMessagesAsync(request.MessageCount).GetAwaiter().GetResult();
+                request.Messages = new List<string>();
+                foreach (var message in messages)
+                {
+                    request.Messages.Add(message.Body.ToString());
+                }
+				if (request.Messages.Count == 0) notyf.Information("Sorry there are 0 messages in queue!");
+				else notyf.Success($"Fetched {request.Messages.Count} messages!");
+
+
+            }
+			catch(Exception ex) 
+			{
+				Console.WriteLine(ex.Message);
+				notyf.Error(ex.InnerException.Message);
 			}
 			return View(request);
 		}

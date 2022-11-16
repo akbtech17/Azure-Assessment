@@ -106,14 +106,14 @@
                                                 @{
                                                     int i = 1;
                                                 }
-                                                @foreach (var message in @Model.Messages)
+                                                @foreach (string message in @Model.Messages)
                                                 {
                                                     <tr class="msg-list">
                                                         <td class="center-align">@i</td>
                                                         @{
                                                             i++;
                                                         }
-                                                        <td>@Html.DisplayFor(d => message))</td>
+                                                        <td>@Html.DisplayFor(d => message)</td>
 
                                                     </tr>
                                                 }
@@ -136,7 +136,7 @@
 
 <style>
     .vl {
-        border-left: 2px solid whitesmoke;
+        border-left: 2px solid black;
         height: 100vh;
     }
     .bg-white {
