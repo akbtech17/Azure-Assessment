@@ -41,6 +41,7 @@ namespace AzureAssessment.Controllers
                     UploadCSVFile(myFile);
                 }
 				notyf.Success("File uploaded successfully!");
+                return RedirectToAction("List");
             }
 			catch (Exception ex)
 			{

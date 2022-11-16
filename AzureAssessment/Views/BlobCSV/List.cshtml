@@ -23,25 +23,16 @@
                     @{
                         int i = 1;
                     }
-
                     @foreach (CSVFile csv in @Model)
                     {
                         <tr class="csvlist-row">
-
-
                             <td class="center-align">@i</td>
                             @{
                                 i++;
                             }
                             <td>@Html.DisplayFor(d => csv.FileName)</td>
-
                         </tr>
                     }
-                   
-
-            
-
-
                 </tbody>
             </table>
         </div>
@@ -88,4 +79,3 @@
 <script src="~/lib/jquery/dist/jquery.js"></script>
 <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
-
