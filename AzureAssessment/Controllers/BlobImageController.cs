@@ -9,24 +9,24 @@ namespace AzureAssessment.Controllers
 {
 	public class BlobImageController : Controller
 	{
-		private static string? _containerName;
-		private static string? _connectionString;
+		private static string? containerName;
+		private static string? connectionString;
 		private static string? _imageBaseUrl;
-        BlobServiceClient? _serviceClient;
-		BlobContainerClient? _containerClient;
-        private readonly INotyfService? _notyf;
+        BlobServiceClient? serviceClient;
+		BlobContainerClient? containerClient;
+        private readonly INotyfService? notyf;
 
         public BlobImageController(IConfiguration configuration, INotyfService notyf)
 		{
 			try
 			{
-				_notyf = notyf;
-				_connectionString = configuration.GetValue<string>("ConnectionStrings:BlobConnectionString");
-				_containerName = configuration.GetValue<string>("BlobContainerName");
+				this.notyf = notyf;
+				connectionString = configuration.GetValue<string>("ConnectionStrings:BlobConnectionString");
+				containerName = configuration.GetValue<string>("BlobContainerName");
 				_imageBaseUrl = configuration.GetValue<string>("BlobImagesBaseUrl");
 
-				_serviceClient = new BlobServiceClient(_connectionString);
-				_containerClient = _serviceClient.GetBlobContainerClient(_containerName);
+				serviceClient = new BlobServiceClient(connectionString);
+				containerClient = serviceClient.GetBlobContainerClient(containerName);
                 
             }
 			catch(Exception ex) 
@@ -53,16 +53,16 @@ namespace AzureAssessment.Controllers
 					string? imgDescription = imageInfo.ImageDescription;
 
 					UploadImageBlob(image, imgCaption, imgDescription);
-					_notyf.Success("Image Uploaded Successfully!");
+					notyf.Success("Image Uploaded Successfully!");
 					return RedirectToAction("ImageList");
 				}
 				else {
-                    _notyf.Error("Internal Error Occurred!");
+                    notyf.Error("Internal Error Occurred!");
                 }
             }
 			catch (Exception ex)
 			{
-                _notyf.Error("Internal Error Occurred!");
+                notyf.Error("Internal Error Occurred!");
                 Console.WriteLine(ex.Message);
 			}
 			return View();
@@ -74,12 +74,12 @@ namespace AzureAssessment.Controllers
             List<Image> images = new List<Image>();
             try
 			{
-				if (_containerClient == null) {
-                    _notyf.Error("Internal Error Occurred!");
+				if (containerClient == null) {
+                    notyf.Error("Internal Error Occurred!");
                     return View(images);
                 }
 
-				foreach (BlobItem item in _containerClient.GetBlobs())
+				foreach (BlobItem item in containerClient.GetBlobs())
 				{
 					images.Add(new Image { ImageName = item.Name, ImageUrl = _imageBaseUrl + item.Name });
 				}
@@ -87,7 +87,7 @@ namespace AzureAssessment.Controllers
             }
 			catch (Exception ex) 
 			{
-                _notyf.Error("Internal Error Occurred!");
+                notyf.Error("Internal Error Occurred!");
                 Console.WriteLine(ex.Message);
             }
             return View(images);
@@ -95,7 +95,7 @@ namespace AzureAssessment.Controllers
 
 		public void UploadImageBlob(IFormFile image, string? caption, string? descritpion)
 		{
-			BlobClient? blobClient = _containerClient?.GetBlobClient(image.FileName);
+			BlobClient? blobClient = containerClient?.GetBlobClient(image.FileName);
 			using (Stream stream = image.OpenReadStream()) 
 				blobClient?.Upload(stream);
 
@@ -103,7 +103,7 @@ namespace AzureAssessment.Controllers
 			if (caption != null) metadata.Add("Caption", caption);
 			if (descritpion != null) metadata.Add("Description", descritpion);
 			blobClient?.SetMetadata(metadata);
-			Console.WriteLine($"{image.FileName} has been uploaded to {_containerName} conatainer of Blob Storage");   
+			Console.WriteLine($"{image.FileName} has been uploaded to {containerName} conatainer of Blob Storage");   
 		}
 	}
 }

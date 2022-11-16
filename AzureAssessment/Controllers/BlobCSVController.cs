@@ -1,5 +1,5 @@
-﻿using Azure.Storage.Blobs;
-using Azure.Storage.Blobs.Models;
+﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using Azure.Storage.Blobs;
 using AzureAssessment.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,19 +7,18 @@ namespace AzureAssessment.Controllers
 {
 	public class BlobCSVController : Controller
 	{
-		private static string _containerName = "data";
-		private static string? _connectionString;
-		BlobServiceClient _serviceClient;
-		BlobContainerClient _containerClient;
+		private static string containerName = "data";
+		private static string? connectionString;
+		BlobServiceClient serviceClient;
+		BlobContainerClient containerClient;
+        private readonly INotyfService? notyf;
 
-		public BlobCSVController()
+        public BlobCSVController(IConfiguration configuration, INotyfService notyf)
 		{
-			var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: false);
-			IConfiguration configuration = builder.Build();
-			_connectionString = configuration.GetValue<string>("ConnectionStrings:BlobConnectionString");
-
-			_serviceClient = new BlobServiceClient(_connectionString);
-			_containerClient = _serviceClient.GetBlobContainerClient(_containerName);
+			this.notyf = notyf;
+			connectionString = configuration.GetValue<string>("ConnectionStrings:BlobConnectionString");
+			serviceClient = new BlobServiceClient(connectionString);
+			containerClient = serviceClient.GetBlobContainerClient(containerName);
 		}
 		[HttpGet]
 		public IActionResult UploadCSVToBlob()
@@ -30,13 +29,22 @@ namespace AzureAssessment.Controllers
 		[HttpPost]
 		public IActionResult UploadCSVToBlob(CSVFile file)
 		{
-			if (file != null && file.MyFile != null)
+			try 
 			{
-				IFormFile myFile = file.MyFile;
-				string? imgCaption = file.FileCaption;
-				string? contentType = file.MyFile.ContentType;
+                if (file != null && file.MyFile != null)
+                {
+                    IFormFile myFile = file.MyFile;
+                    string? imgCaption = file.FileCaption;
+                    string? contentType = file.MyFile.ContentType;
 
-				UploadCSVFile(myFile);
+                    UploadCSVFile(myFile);
+                }
+				notyf.Success("File uploaded successfully!");
+            }
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex.Message);
+				notyf.Error(ex.InnerException.Message));
 			}
 			return View();
 		}
@@ -49,12 +57,12 @@ namespace AzureAssessment.Controllers
 
 		public void UploadCSVFile(IFormFile file)
 		{
-			BlobClient blobClient = _containerClient.GetBlobClient(file.FileName);
-			using (var stream = file.OpenReadStream())
+			BlobClient blobClient = containerClient.GetBlobClient(file.FileName);
+			using (Stream stream = file.OpenReadStream())
 			{
 				blobClient.Upload(stream);
 			}
-			Console.WriteLine($"{file.FileName} has been uploaded to {_containerName} conatainer of Blob Storage");
+			Console.WriteLine($"{file.FileName} has been uploaded to {containerName} conatainer of Blob Storage");
 		}
 	}
 }
