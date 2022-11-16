@@ -1,5 +1,6 @@
 ﻿using AspNetCoreHero.ToastNotification.Abstractions;
 using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
 using AzureAssessment.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -44,7 +45,7 @@ namespace AzureAssessment.Controllers
 			catch (Exception ex)
 			{
 				Console.WriteLine(ex.Message);
-				notyf.Error(ex.InnerException.Message));
+				notyf.Error(ex.InnerException.Message);
 			}
 			return View();
 		}
@@ -52,7 +53,27 @@ namespace AzureAssessment.Controllers
 		[HttpGet]
 		public IActionResult List()
 		{
-			return View();
+            List<CSVFile> csvs = new List<CSVFile>();
+            try
+            {
+                if (containerClient == null)
+                {
+                    notyf.Error("Internal Error Occurred!");
+                    return View(csvs);
+                }
+
+                foreach (BlobItem item in containerClient.GetBlobs())
+                {
+                    csvs.Add(new CSVFile { FileName = item.Name});
+                }
+
+            }
+            catch (Exception ex)
+            {
+                notyf.Error("Internal Error Occurred!");
+                Console.WriteLine(ex.Message);
+            }
+            return View(csvs);
 		}
 
 		public void UploadCSVFile(IFormFile file)

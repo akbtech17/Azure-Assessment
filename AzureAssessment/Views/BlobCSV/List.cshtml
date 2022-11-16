@@ -1,4 +1,6 @@
-﻿<div class="sidebar">
+﻿@model IEnumerable<CSVFile>
+
+<div class="sidebar">
     <div class="sidenav">
         <a class="nav-link" asp-area="" asp-controller="BlobImage" asp-action="UploadImageToBlob">Upload Image</a>
         <a class="nav-link" asp-area="" asp-controller="BlobImage" asp-action="ImageList">Gallery</a>
@@ -22,38 +24,22 @@
                         int i = 1;
                     }
 
-
-                    <tr class="csvlist-row">
-
-
-                        <td class="center-align">@i</td>
-                        @{
-                            i++;
-                        }
-                        <td>File 1</td>
-
-                    </tr>
-
-                    <tr class="csvlist-row">
+                    @foreach (CSVFile csv in @Model)
+                    {
+                        <tr class="csvlist-row">
 
 
-                        <td class="center-align">@i</td>
-                        @{
-                            i++;
-                        }
-                        <td>File 2</td>
+                            <td class="center-align">@i</td>
+                            @{
+                                i++;
+                            }
+                            <td>@Html.DisplayFor(d => csv.FileName)</td>
 
-                    </tr>
+                        </tr>
+                    }
+                   
 
-                    <tr class="csvlist-row">
-
-                        <td class="center-align">@i</td>
-                        @{
-                            i++;
-                        }
-                        <td>File 3</td>
-
-                    </tr>
+            
 
 
                 </tbody>
