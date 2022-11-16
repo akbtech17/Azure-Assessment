@@ -1,4 +1,5 @@
-﻿using Azure.Identity;
+﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using Azure.Identity;
 using Azure.Security.KeyVault.Keys;
 using Azure.Security.KeyVault.Secrets;
 using AzureAssessment.Models;
@@ -8,20 +9,23 @@ namespace AzureAssessment.Controllers
 {
 	public class KeyVaultController : Controller
 	{
-		private static string? _tenantId;
-		private static string? _clientId;
-		private static string? _clientSecret;
-        private static string? _keyVaultUrl;
-		private static SecretClient? _secretsClient;
+		private static string? tenantId;
+		private static string? clientId;
+		private static string? clientSecret;
+        private static string? keyVaultUrl;
+		private static SecretClient? secretsClient;
+        private readonly INotyfService? notyf;
 
-        public KeyVaultController(IConfiguration configuration) {
-			_tenantId = configuration["TenantId"];
-			_clientId = configuration["ClientId"];
-			_clientSecret = configuration["ClientSecret"];
-            _keyVaultUrl = configuration["AzureKeyVaultUrl"];
+        public KeyVaultController(IConfiguration configuration, INotyfService notyf) {
+			this.notyf = notyf;
 
-			ClientSecretCredential clientCredential = new ClientSecretCredential(_tenantId, _clientId, _clientSecret);
-            _secretsClient = new SecretClient(new Uri(_keyVaultUrl), clientCredential);
+			tenantId = configuration["TenantId"];
+			clientId = configuration["ClientId"];
+			clientSecret = configuration["ClientSecret"];
+            keyVaultUrl = configuration["AzureKeyVaultUrl"];
+
+			ClientSecretCredential clientCredential = new ClientSecretCredential(tenantId, clientId, clientSecret);
+            secretsClient = new SecretClient(new Uri(keyVaultUrl), clientCredential);
             
 		}
 
@@ -35,24 +39,48 @@ namespace AzureAssessment.Controllers
 		[HttpPost]
 		public IActionResult Index(KeyVault keyVaultModel)  
 		{
-			if (keyVaultModel != null && keyVaultModel.Key != null)  {
-				keyVaultModel.Value = _secretsClient?.GetSecret(keyVaultModel.Key).Value.Value;
+			try
+			{
+                if (keyVaultModel != null && keyVaultModel.Key != null)
+                {
+                    keyVaultModel.Value = secretsClient?.GetSecret(keyVaultModel.Key).Value.Value;
+                }
+
+				notyf?.Success("Found the secret!");
             }
-			return View(keyVaultModel);
-		}
+			catch(Exception ex)
+			{
+				Console.WriteLine(ex.Message);
+                notyf?.Error($"Error : {ex.InnerException?.Message}");
+            }
+            return View(keyVaultModel);
+
+        }
 
 		[HttpGet]
-		public IActionResult CreateSecret() 
+		public IActionResult SetSecret() 
 		{
 			return View();
 		}
 
 		[HttpPost]
-		public IActionResult CreateSecret(KeyVault keyVaultModel) 
+		public IActionResult SetSecret(KeyVault keyVaultModel) 
 		{
-			string key = keyVaultModel.Key;
-			string value = keyVaultModel.Value;
-			KeyVaultSecret keyVaultSecret = _secretsClient.SetSecret(key, value);
+			try 
+			{
+				if (keyVaultModel != null) 
+				{
+                    string? key = keyVaultModel.Key;
+                    string? value = keyVaultModel.Value;
+                    KeyVaultSecret? keyVaultSecret = secretsClient.SetSecret(key, value);
+                    notyf?.Success("Successfully created the secret!");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                notyf?.Error($"Error : {ex.InnerException?.Message}");
+            }
             return View();
 		}
 	}
