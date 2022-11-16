@@ -41,6 +41,12 @@ namespace AzureAssessment.Controllers
 			return View();
 		}
 
+		[HttpGet]
+		public IActionResult List()
+		{
+			return View();
+		}
+
 		public void UploadCSVFile(IFormFile file)
 		{
 			BlobClient blobClient = _containerClient.GetBlobClient(file.FileName);

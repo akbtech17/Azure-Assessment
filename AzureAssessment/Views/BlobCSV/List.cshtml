@@ -1,0 +1,105 @@
+﻿<div class="sidebar">
+    <div class="sidenav">
+        <a class="nav-link" asp-area="" asp-controller="BlobImage" asp-action="UploadImageToBlob">Upload Image</a>
+        <a class="nav-link" asp-area="" asp-controller="BlobImage" asp-action="ImageList">Images List</a>
+        <a class="nav-link" asp-area="" asp-controller="BlobCSV" asp-action="UploadCSVToBlob">Upload CSV</a>
+        <a class="nav-link" asp-area="" asp-controller="BlobCSV" asp-action="List">CSV List</a>
+    </div>
+</div>
+<div class="content">
+    <div class="container" style="margin-top: 2rem;">
+        <div class="jumbotron bg-white" style="padding: 1.5rem 2rem">
+            <h1 style="text-align:center; color:#e72929;">CSV List</h1>
+            <table class="table">
+                <thead class="head">
+                    <tr>
+                        <th class="center-align">Sno</th>
+                        <th>File Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        int i = 1;
+                    }
+
+
+                    <tr class="csvlist-row">
+
+
+                        <td class="center-align">@i</td>
+                        @{
+                            i++;
+                        }
+                        <td>File 1</td>
+
+                    </tr>
+
+                    <tr class="csvlist-row">
+
+
+                        <td class="center-align">@i</td>
+                        @{
+                            i++;
+                        }
+                        <td>File 2</td>
+
+                    </tr>
+
+                    <tr class="csvlist-row">
+
+                        <td class="center-align">@i</td>
+                        @{
+                            i++;
+                        }
+                        <td>File 3</td>
+
+                    </tr>
+
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    .container {
+        width: 400px;
+    }
+
+    .bg-white {
+        background-color: white;
+    }
+
+    .csvlist-row:hover {
+        cursor: pointer;
+        background-color: #e72929;
+        color: white;
+        font-weight: 100;
+        text-decoration: none;
+        opacity: 0.9;
+        transition: 0.3s;
+        transform: scale(1.01);
+    }
+
+    .OnHover:hover {
+        cursor: pointer;
+        background-color: #e72929;
+        color: white;
+        font-weight: 100;
+        text-decoration: none;
+        opacity: 0.9;
+        transition: 0.3s;
+        transform: scale(1.01);
+    }
+
+    .center-align {
+        text-align: center;
+    }
+</style>
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
