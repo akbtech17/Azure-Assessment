@@ -49,20 +49,20 @@ namespace AzureAssessment.Controllers
 				if (imageInfo != null && imageInfo.MyImage != null)
 				{
 					IFormFile image = imageInfo.MyImage;
-					string? imgCaption = imageInfo.ImageCaption;
-					string? imgDescription = imageInfo.ImageDescription;
+					string imgCaption = imageInfo.ImageCaption == null ? "" : imageInfo.ImageCaption;
+					string imgDescription = imageInfo.ImageDescription == null ? "" : imageInfo.ImageDescription;
 
 					UploadImageBlob(image, imgCaption, imgDescription);
-					notyf.Success("Image Uploaded Successfully!");
+					notyf?.Success("Image Uploaded Successfully!");
 					return RedirectToAction("ImageList");
 				}
 				else {
-                    notyf.Error("Internal Error Occurred!");
+                    notyf?.Error("Internal Error Occurred!");
                 }
             }
 			catch (Exception ex)
 			{
-                notyf.Error("Internal Error Occurred!");
+                notyf?.Error("Internal Error Occurred!");
                 Console.WriteLine(ex.Message);
 			}
 			return View();
@@ -75,7 +75,7 @@ namespace AzureAssessment.Controllers
             try
 			{
 				if (containerClient == null) {
-                    notyf.Error("Internal Error Occurred!");
+                    notyf?.Error("Internal Error Occurred!");
                     return View(images);
                 }
 
@@ -87,22 +87,23 @@ namespace AzureAssessment.Controllers
             }
 			catch (Exception ex) 
 			{
-                notyf.Error("Internal Error Occurred!");
+                notyf?.Error("Internal Error Occurred!");
                 Console.WriteLine(ex.Message);
             }
             return View(images);
         }
 
-		public void UploadImageBlob(IFormFile image, string? caption, string? descritpion)
+		public void UploadImageBlob(IFormFile image, string caption, string descritpion)
 		{
-			BlobClient? blobClient = containerClient?.GetBlobClient(image.FileName);
+			if (containerClient == null) return;
+			BlobClient blobClient = containerClient.GetBlobClient(image.FileName);
 			using (Stream stream = image.OpenReadStream()) 
-				blobClient?.Upload(stream);
+				blobClient.Upload(stream);
 
 			IDictionary<string, string> metadata = new Dictionary<string, string>();
 			if (caption != null) metadata.Add("Caption", caption);
 			if (descritpion != null) metadata.Add("Description", descritpion);
-			blobClient?.SetMetadata(metadata);
+			blobClient.SetMetadata(metadata);
 			Console.WriteLine($"{image.FileName} has been uploaded to {containerName} conatainer of Blob Storage");   
 		}
 	}

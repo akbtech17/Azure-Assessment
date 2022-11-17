@@ -35,18 +35,18 @@ namespace AzureAssessment.Controllers
                 if (file != null && file.MyFile != null)
                 {
                     IFormFile myFile = file.MyFile;
-                    string? imgCaption = file.FileCaption;
-                    string? contentType = file.MyFile.ContentType;
+                    string imgCaption = file.FileCaption == null ? "" : file.FileCaption;
 
                     UploadCSVFile(myFile);
                 }
-				notyf.Success("File uploaded successfully!");
+				
+				notyf?.Success("File uploaded successfully!");
                 return RedirectToAction("List");
             }
 			catch (Exception ex)
 			{
 				Console.WriteLine(ex.Message);
-				notyf.Error(ex.InnerException.Message);
+				notyf?.Error(ex.InnerException == null ? "" : ex.InnerException.Message);
 			}
 			return View();
 		}
@@ -59,7 +59,7 @@ namespace AzureAssessment.Controllers
             {
                 if (containerClient == null)
                 {
-                    notyf.Error("Internal Error Occurred!");
+                    notyf?.Error("Internal Error Occurred!");
                     return View(csvs);
                 }
 
@@ -71,7 +71,7 @@ namespace AzureAssessment.Controllers
             }
             catch (Exception ex)
             {
-                notyf.Error("Internal Error Occurred!");
+                notyf?.Error("Internal Error Occurred!");
                 Console.WriteLine(ex.Message);
             }
             return View(csvs);
