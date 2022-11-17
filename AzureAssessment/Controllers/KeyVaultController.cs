@@ -68,11 +68,11 @@ namespace AzureAssessment.Controllers
 		{
 			try 
 			{
-				if (keyVaultModel != null) 
+				if (keyVaultModel != null && secretsClient != null) 
 				{
-                    string? key = keyVaultModel.Key;
-                    string? value = keyVaultModel.Value;
-                    KeyVaultSecret? keyVaultSecret = secretsClient.SetSecret(key, value);
+                    string key = keyVaultModel.Key == null ? "" : keyVaultModel.Key;
+                    string value = keyVaultModel.Value == null ? "" : keyVaultModel.Value;
+                    KeyVaultSecret keyVaultSecret = secretsClient.SetSecret(key, value);
                     notyf?.Success("Successfully created the secret!");
                 }
             }

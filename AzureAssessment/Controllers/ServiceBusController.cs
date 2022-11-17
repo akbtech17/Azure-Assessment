@@ -1,20 +1,17 @@
 ﻿using AspNetCoreHero.ToastNotification.Abstractions;
 using Azure.Messaging.ServiceBus;
-using Azure.Storage.Blobs;
 using AzureAssessment.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.Amqp.Framing;
 
 namespace AzureAssessment.Controllers
 {
 	public class ServiceBusController : Controller
 	{
-		
 		private static string? connectionString;
 		private static string? serviceBusQueueName;
 		private static ServiceBusClient? client;
         private readonly INotyfService? notyf;
-		private static ServiceBusReceiver reciever;
+		private static ServiceBusReceiver? reciever;
 
         public ServiceBusController(IConfiguration configuration, INotyfService notyf) {
 			this.notyf = notyf;
@@ -26,23 +23,25 @@ namespace AzureAssessment.Controllers
 		public IActionResult UploadMessageToServiceBus()
 		{
 			return View();
-		}
+        }
 
 		[HttpPost]
 		public IActionResult UploadMessageToServiceBus(Message messageModel)
 		{
 			try
 			{
-                ServiceBusSender sender = client.CreateSender(serviceBusQueueName);
-                ServiceBusMessage message = new ServiceBusMessage(messageModel.MessageString);
-                sender.SendMessageAsync(message).GetAwaiter().GetResult();
-                Console.WriteLine("Message Sent");
-                notyf.Success("Message sent successfully!");
+				if (client != null) {
+                    ServiceBusSender sender = client.CreateSender(serviceBusQueueName);
+                    ServiceBusMessage message = new ServiceBusMessage(messageModel.MessageString);
+                    sender.SendMessageAsync(message).GetAwaiter().GetResult();
+                    Console.WriteLine("Message Sent");
+                    notyf?.Success("Message sent successfully!");
+                }
             }
 			catch(Exception ex) 
 			{
 				Console.WriteLine(ex.Message);
-				notyf.Error(ex.InnerException.Message);
+				notyf?.Error(ex.InnerException == null ? "" : ex.InnerException.Message);
 			}
 			return View();
 		}
@@ -54,26 +53,29 @@ namespace AzureAssessment.Controllers
 			return View(obj);
 		}
 
-		[HttpPost]
-		public async Task<IActionResult> RecieveMessageFromServiceBusAsync(RecieveMessages request) 
-		{
-			try
-			{
-				var messages = reciever.ReceiveMessagesAsync(request.MessageCount).GetAwaiter().GetResult();
-                request.Messages = new List<string>();
-                foreach (var message in messages)
+        [HttpPost]
+        public IActionResult RecieveMessageFromServiceBus(RecieveMessages request)
+        {
+            try
+            {
+                if (reciever != null)
                 {
-                    request.Messages.Add(message.Body.ToString());
+                    var messages = reciever.ReceiveMessagesAsync(request.MessageCount).GetAwaiter().GetResult();
+                    request.Messages = new List<string>();
+                    foreach (var message in messages)
+                    {
+                        request.Messages.Add(message.Body.ToString());
+                    }
+                    if (request.Messages.Count == 0) notyf?.Information("Sorry there are 0 messages in queue!");
+                    else notyf?.Success($"Fetched {request.Messages.Count} messages!");
                 }
-				if (request.Messages.Count == 0) notyf.Information("Sorry there are 0 messages in queue!");
-				else notyf.Success($"Fetched {request.Messages.Count} messages!");
             }
-			catch(Exception ex) 
-			{
-				Console.WriteLine(ex.Message);
-				notyf.Error(ex.InnerException.Message);
-			}
-			return View(request);
-		}
-	}
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                notyf?.Error(ex.InnerException == null ? "" : ex.InnerException.Message);
+            }
+            return View(request);
+        }
+    }
 }
